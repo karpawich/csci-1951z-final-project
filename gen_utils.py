@@ -33,8 +33,21 @@ class Ethnicity(Enum):
     ASIAN="3"
     PACIFIC_ISLANDER="4"
 
+class Date:
+
+    def __init__(self, month:int=-1, day:int=-1, not_applicable=False):
+        self.not_applicable = not_applicable
+        self.month = month
+        self.day = day
+
+    def __str__(self):
+        if self.not_applicable:
+            return "N/A"
+        else:
+            return (self.month) + "/" + (self.day)
+
 class Job:
-    def __init__(self, role="N/A", start="N/A", end="N/A"):
+    def __init__(self, role="N/A", start=Date(not_applicable=True), end=Date(not_applicable=True)):
         self.role = role
         self.start = start
         self.end = end
@@ -77,16 +90,11 @@ def generate_csv(file_name, rows: list[Row], for_candidate_evaluator):
                 "Work authorization": row.work_authorization.value,
                 "Disability": row.disability.value,
                 "Ethnicity": row.ethnicity.value,
-                "Role 1": row.jobs[0].role,
-                "Start 1": row.jobs[0].start,
-                "End 1": row.jobs[0].end,
-                "Role 2": row.jobs[1].role,
-                "Start 2": row.jobs[1].start,
-                "End 2": row.jobs[1].end,
-                "Role 3": row.jobs[2].role,
-                "Start 3": row.jobs[2].start,
-                "End 3": row.jobs[2].end,
             }
+            for i, job in enumerate(row.jobs):
+                csv_row["Role " + str(i + 1)] = job.role
+                csv_row["Start " + str(i + 1)] = str(job.start)
+                csv_row["End " + str(i + 1)] = str(job.end)
             if for_candidate_evaluator:
                 csv_row["Resume score"] = row.resume_score
             writer.writerow(csv_row)
