@@ -44,7 +44,7 @@ class Date:
         if self.not_applicable:
             return "N/A"
         else:
-            return (self.month) + "/" + (self.day)
+            return str(self.month) + "/" + str(self.day)
 
 class Job:
     def __init__(self, role="N/A", start=Date(not_applicable=True), end=Date(not_applicable=True)):
@@ -76,7 +76,7 @@ def generate_csv(file_name, rows: list[Row], for_candidate_evaluator):
     if (for_candidate_evaluator):
         field_names.append("Resume score")
     with open(file_name + ".csv", 'w') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=field_names)
+        writer = csv.DictWriter(csvfile, fieldnames=field_names, lineterminator="\n")
         writer.writeheader()
         for row in rows:
             csv_row = {
