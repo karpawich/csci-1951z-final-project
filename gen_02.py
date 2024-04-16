@@ -60,7 +60,7 @@ def generate_candidates(num: int) -> Row:
 
 if __name__ == "__main__":
     # generate 1000 candidates and output to csv
-    rows = generate_candidates(4000)
+    rows = generate_candidates(1500)
     generate_csv("./datasets/synthetic", rows, for_candidate_evaluator=False)
-    print("generated & wrote 10000 candidates to datasets/synthetic.csv")
+    print("generated & wrote 1500 candidates to datasets/synthetic.csv")
     
