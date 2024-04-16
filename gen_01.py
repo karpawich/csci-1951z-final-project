@@ -1,4 +1,4 @@
-from gen_utils import Row, Degree, Gender, Ethnicity, VeteranStatus, Job, WorkAuthorization, Disability, Date, generate_csv
+from utils import Row, Degree, Gender, Ethnicity, VeteranStatus, Job, WorkAuthorization, Disability, Date, generate_csv
 import numpy as np
 import pandas as pd
 from datetime import date, timedelta
@@ -90,7 +90,7 @@ def generate_candidates(num: int) -> Row:
 
 if __name__ == "__main__":
     # generate 1000 candidates and output to csv
-    rows = generate_candidates(10000)
+    rows = generate_candidates(4500)
     generate_csv("./datasets/synthetic", rows, for_candidate_evaluator=False)
     print("generated & wrote 10000 candidates to datasets/synthetic.csv")
     
