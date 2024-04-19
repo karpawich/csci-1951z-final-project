@@ -5,7 +5,7 @@ from datetime import date, timedelta
 
 
 # utility function to generate candidates
-def generate_candidates(num: int) -> Row:
+def generate_candidates(num: int, gen_resume_score=False) -> Row:
     rows = []
     for _ in range(num):
         degree = np.random.choice(
@@ -53,7 +53,11 @@ def generate_candidates(num: int) -> Row:
         
         jobs = [Job(), Job(), Job()]
         
-        r = Row(school_name, gpa, degree, location, gender, veteran_status, work_authorization, disability, ethnicity, jobs)
+        resume_score = None
+        if gen_resume_score:
+            resume_score = np.random.random()*10
+        
+        r = Row(school_name, gpa, degree, location, gender, veteran_status, work_authorization, disability, ethnicity, jobs, resume_score)
         rows.append(r)
     return rows
 

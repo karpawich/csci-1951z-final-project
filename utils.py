@@ -67,7 +67,7 @@ class Job:
 class Row:
     _applicant_id = 1
 
-    def __init__(self,school_name:str, gpa:float, degree:Degree, location:str, gender:Gender, veteran_status:VeteranStatus, work_authorization:WorkAuthorization, disability:Disability, ethnicity:Ethnicity, jobs: list[Job], resume_score:int = None, interview_decision:InterviewDecision = None):
+    def __init__(self,school_name:str, gpa:float, degree:Degree, location:str, gender:Gender, veteran_status:VeteranStatus, work_authorization:WorkAuthorization, disability:Disability, ethnicity:Ethnicity, jobs: list[Job], resume_score:float = None, interview_decision:InterviewDecision = None):
         self.applicant_id = Row._applicant_id
         Row._applicant_id += 1
 

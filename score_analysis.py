@@ -7,7 +7,7 @@ import pandas as pd
 def generate_master_rows(feature_enum, feature_name, rows):
     # create a dataset for each value feature can take
     # all the same except for the feature value
-    values = [e.value for e in feature_enum]
+    values = [e for e in feature_enum]
     
     master_rows = []
     for v in values:
@@ -33,37 +33,31 @@ def measure_selection_rate(feature_enum, feature_name, master_rows, results):
 
     return selection_rates
 
-# compute fairness metrics
 
-# Create the parser
 parser = argparse.ArgumentParser(description='')
 
-# Add arguments
-parser.add_argument('--read_fname', type=str,
-                    help='the filepath to read results')
-parser.add_argument('--results', type=str,
-                    help='the filepath to read results')
+parser.add_argument('--synthetic', type=str,
+                    help='the filepath of the synthetic dataset', default="datasets/synthetic.csv")
+parser.add_argument('--result', type=str,
+                    help='the filepath to read results', default="datasets/result.csv")
 parser.add_argument('--task', choices=['gen_test_data', 'measure_selection_rates'],
                     help="Task to perform: 'gen_test_data' or 'measure_selection_rates'")
 
 
 if __name__ == "__main__":
-    # Parse the arguments
     args = parser.parse_args()
     
     feature_enum = Degree
-    feature_name = "Degree"
+    feature_name = "degree"
     
     if args.task == 'gen_test_data':
-        rows = read_csv(args.read_fname)
+        rows = read_csv(args.synthetic)
         master_rows = generate_master_rows(Degree, feature_name, rows)
-        generate_csv(f"datasets/test_df_{feature_name}", master_rows, for_candidate_evaluator=False)
+        fname = f"datasets/test_df_{feature_name}"
+        generate_csv(fname, master_rows, for_candidate_evaluator=False)
+        print(f"generated csv to uploat @ {fname}")
     else:
         master_rows = read_csv(f"datasets/test_df_{feature_name}.csv")
-        results = pd.read_csv(args.results)
+        results = pd.read_csv(args.result, dtype=np.float64)
         selection_rates = measure_selection_rate(feature_enum, feature_name, master_rows, results)
-        print(selection_rates)
-    
-    
-    
-# could look at distributions instead of just mean selection rates
+        print("selection rates:", selection_rates)
