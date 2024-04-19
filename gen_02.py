@@ -5,7 +5,7 @@ from datetime import date, timedelta
 
 
 # utility function to generate candidates
-def generate_candidates(num: int, gen_resume_score=False) -> Row:
+def generate_candidates(num: int, gen_resume_score=False):
     rows = []
     for _ in range(num):
         degree = np.random.choice(
@@ -55,7 +55,7 @@ def generate_candidates(num: int, gen_resume_score=False) -> Row:
         
         resume_score = None
         if gen_resume_score:
-            resume_score = np.random.random()*10
+            resume_score = np.round(np.random.random()*10, 2)
         
         r = Row(school_name, gpa, degree, location, gender, veteran_status, work_authorization, disability, ethnicity, jobs, resume_score)
         rows.append(r)
@@ -67,4 +67,9 @@ if __name__ == "__main__":
     rows = generate_candidates(1500)
     generate_csv("./datasets/synthetic", rows, for_candidate_evaluator=False)
     print("generated & wrote 1500 candidates to datasets/synthetic.csv")
+    
+    Row._applicant_id = 1
+    rows_with_score = generate_candidates(1500, gen_resume_score=True)
+    generate_csv("./datasets/synthetic_with_score", rows_with_score, for_candidate_evaluator=True)
+    print("generated & wrote 1500 candidates to datasets/synthetic_with_score.csv")
     

@@ -36,12 +36,14 @@ def measure_selection_rate(feature_enum, feature_name, master_rows, results):
 
 parser = argparse.ArgumentParser(description='')
 
-parser.add_argument('--synthetic', type=str,
-                    help='the filepath of the synthetic dataset', default="datasets/synthetic.csv")
+# parser.add_argument('--synthetic', type=str,
+#                     help='the filepath of the synthetic dataset', default="datasets/synthetic.csv")
 parser.add_argument('--result', type=str,
                     help='the filepath to read results', default="datasets/result.csv")
 parser.add_argument('--task', choices=['gen_test_data', 'measure_selection_rates'],
                     help="Task to perform: 'gen_test_data' or 'measure_selection_rates'")
+parser.add_argument("--model", choices=[1, 2],
+                    help="Which model to evaluate: resume scorer (1) or interview decider (2)")
 
 
 if __name__ == "__main__":
@@ -49,6 +51,7 @@ if __name__ == "__main__":
     
     feature_enum = Degree
     feature_name = "degree"
+    synthetic_fpath = "datasets/synthetic.csv" if args.model == 1 else "datasets/synthetic_with_score.csv"
     
     if args.task == 'gen_test_data':
         rows = read_csv(args.synthetic)
